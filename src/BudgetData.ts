@@ -9,9 +9,9 @@ export const budgetData: SankeyGraph<ISankeyNode, ISankeyLink> = {
     links: [
         {source: 'GroI', target: 'NetI', value: 900},
         {source: 'GroI', target: 'AhvC', value: 30},
-        {source: 'GroI', target: 'NoIC', value: 15},
-        {source: 'GroI', target: 'Pen', value: 10},
-        {source: 'GroI', target: 'SicI', value: 15},
+        {source: 'GroI', target: 'NoIC', value: 25},
+        {source: 'GroI', target: 'Pen', value: 20},
+        {source: 'GroI', target: 'SicI', value: 25},
 
         {source: 'NetI', target: 'Rent', value: 300},
         {source: 'NetI', target: 'Inv', value: 300},
