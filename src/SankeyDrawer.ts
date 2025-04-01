@@ -3,17 +3,19 @@ import {ISankeyLink, ISankeyNode} from "./Definitions.ts";
 import * as d3 from "d3";
 
 export function createSankeyChart(data: SankeyGraph<ISankeyNode, ISankeyLink>, nodeNames: Map<string, string>): SVGSVGElement {
-    const width = 600
-    const height = 500
+    const width = 800
+    const height = 600
     const nodeLabelPadding = 6
     const color = '#693382';
 
+    // initial svg creation
     const svg = d3.create("svg")
         .attr("width", width)
         .attr("height", height)
         .attr("viewBox", [0, 0, width, height])
         .attr("style", "max-width: 100%; height: auto; height: intrinsic;");
 
+    // sankey generator
     const generator = sankey<ISankeyNode, ISankeyLink>()
         .nodeId(data => data.name)
         .nodeWidth(15)
@@ -21,8 +23,9 @@ export function createSankeyChart(data: SankeyGraph<ISankeyNode, ISankeyLink>, n
         .nodeAlign(sankeyLeft)
         .nodeSort((a, b) => b.value! - a.value!)
         .extent([[0, 5], [width, height - 5]])
-
     const sankeyGraph = generator(data)
+
+    // node rects
     svg.append('g')
         .selectAll()
         .data<SankeyNode<ISankeyNode, ISankeyLink>>(sankeyGraph.nodes)
@@ -35,6 +38,7 @@ export function createSankeyChart(data: SankeyGraph<ISankeyNode, ISankeyLink>, n
         .append('title')
         .text(d => `${nodeNames.get(d.name)}\n${d.value}`)
 
+    // node labels
     svg.append('g')
         .selectAll()
         .data<SankeyNode<ISankeyNode, ISankeyLink>>(sankeyGraph.nodes)
@@ -47,6 +51,7 @@ export function createSankeyChart(data: SankeyGraph<ISankeyNode, ISankeyLink>, n
         .attr('text-anchor', d => d.x0! < width / 2 ? 'start' : 'end')
         .text(d => nodeNames.get(d.name)!)
 
+    // links
     svg.append('g')
         .attr('fill', 'none')
         .style('mix-blend-mode', 'multiply')
