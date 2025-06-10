@@ -9,9 +9,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   </div>
 `
 
-
 const container: HTMLDivElement = document.querySelector<HTMLDivElement>('#svg-container-budget')!
-
 
 const budgetSankeyChart = createSankeyChart(budgetData, budgetNodeFullNames)
 container.append(budgetSankeyChart)
