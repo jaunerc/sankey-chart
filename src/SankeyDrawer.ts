@@ -2,8 +2,8 @@ import {sankey, SankeyGraph, sankeyLeft, SankeyLink, SankeyNode} from "d3-sankey
 import {ISankeyLink, ISankeyNode} from "./Definitions.ts";
 import * as d3 from "d3";
 
-export function createSankeyChart(data: SankeyGraph<ISankeyNode, ISankeyLink>, nodeNames: Map<string, string>): SVGSVGElement {
-    const width = 800
+export function createSankeyChart(data: SankeyGraph<ISankeyNode, ISankeyLink>): SVGSVGElement {
+    const width = 1000
     const height = 600
     const nodeLabelPadding = 6
     const color = '#693382';
@@ -36,7 +36,7 @@ export function createSankeyChart(data: SankeyGraph<ISankeyNode, ISankeyLink>, n
         .attr("width", d => d.x1! - d.x0!)
         .attr('fill', color)
         .append('title')
-        .text(d => `${nodeNames.get(d.name)}\n${d.value}`)
+        .text(d => `${d.name}\n${d.value}`)
 
     // Node labels
     svg.append('g')
@@ -49,7 +49,7 @@ export function createSankeyChart(data: SankeyGraph<ISankeyNode, ISankeyLink>, n
         .attr("height", d => d.y1! - d.y0!)
         .attr("width", d => d.x1! - d.x0!)
         .attr('text-anchor', d => d.x0! < width / 2 ? 'start' : 'end')
-        .text(d => nodeNames.get(d.name)!)
+        .text(d => d.name!)
 
     // Links
     svg.append('g')
@@ -69,7 +69,7 @@ export function createSankeyChart(data: SankeyGraph<ISankeyNode, ISankeyLink>, n
         .text(d => {
             const source = d.source as SankeyNode<ISankeyNode, ISankeyLink>
             const target = d.target as SankeyNode<ISankeyNode, ISankeyLink>
-            return `${nodeNames.get(source.name)} ⇨ ${nodeNames.get(target.name)}\n${d.value}`
+            return `${source.name} ⇨ ${target.name}\n${d.value}`
         })
 
     return svg.node()!

@@ -3,4 +3,7 @@ export interface ISankeyNode {
 }
 
 export interface ISankeyLink {
+    source: string
+    target: string
+    value: number
 }

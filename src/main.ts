@@ -1,6 +1,6 @@
 import './style.css'
-import {budgetData, budgetNodeFullNames} from "./BudgetData.ts";
 import {createSankeyChart} from "./SankeyDrawer.ts";
+import {NikeData} from "./NikeData.ts";
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   <div id="container">
@@ -11,5 +11,5 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 
 const container: HTMLDivElement = document.querySelector<HTMLDivElement>('#svg-container-budget')!
 
-const budgetSankeyChart = createSankeyChart(budgetData, budgetNodeFullNames)
+const budgetSankeyChart = createSankeyChart(NikeData)
 container.append(budgetSankeyChart)
