@@ -3,7 +3,7 @@ import {ISankeyLink, ISankeyNode} from "./Definitions.ts";
 import * as d3 from "d3";
 
 export function createSankeyChart(data: SankeyGraph<ISankeyNode, ISankeyLink>): SVGSVGElement {
-    const width = 1000
+    const width = 800
     const height = 600
     const nodeLabelPadding = 6
     const color = '#693382';
@@ -22,7 +22,7 @@ export function createSankeyChart(data: SankeyGraph<ISankeyNode, ISankeyLink>): 
         .nodePadding(20)
         .nodeAlign(sankeyLeft)
         .nodeSort((a, b) => b.value! - a.value!)
-        .extent([[0, 5], [width, height - 5]])
+        .extent([[0, 5], [width, height - 10]])
     const sankeyGraph = generator(data)
 
     // Node rectangles
@@ -84,16 +84,17 @@ function sankeyLinkPathHorizontal(link: SankeyLink<ISankeyNode, ISankeyLink>): s
     const tx0: number = targetNode.x0!;
 
     // All four corners of the link
-    const linkWidthOrMinWidth: number = Math.max(link.width!, 1);
-    const lsy0: number = link.y0! - (linkWidthOrMinWidth / 2);
-    const lsy1: number = link.y0! + (linkWidthOrMinWidth / 2);
-    const lty0: number = link.y1! - (linkWidthOrMinWidth / 2);
-    const lty1: number = link.y1! + (linkWidthOrMinWidth / 2);
+    const linkWidthOrMinWidth = Math.max(link.width!, 1);
+    const halfLinkWidth = linkWidthOrMinWidth / 2;
+    const lsy0: number = link.y0! - halfLinkWidth;
+    const lsy1: number = link.y0! + halfLinkWidth;
+    const lty0: number = link.y1! - halfLinkWidth;
+    const lty1: number = link.y1! + halfLinkWidth;
 
     // Center of the link
     const lcx: number = sx1 + (tx0 - sx1) / 2;
-    let lcxLeft: number = link.y0! < link.y1! ? lcx + linkWidthOrMinWidth / 2 : lcx - linkWidthOrMinWidth / 2;
-    let lcxRight: number = link.y0! > link.y1! ? lcx + linkWidthOrMinWidth / 2 : lcx - linkWidthOrMinWidth / 2;
+    let lcxLeft: number = link.y0! < link.y1! ? lcx + halfLinkWidth : lcx - halfLinkWidth;
+    let lcxRight: number = link.y0! > link.y1! ? lcx + halfLinkWidth : lcx - halfLinkWidth;
 
     const horizontalGapBetweenNodes: number = Math.abs(lty0 - lsy0);
     if (horizontalGapBetweenNodes < linkWidthOrMinWidth) {
